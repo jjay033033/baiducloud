@@ -123,6 +123,7 @@ public class HttpUtil {
 					result.append(line);
 				}
 			}
+			System.out.println(result.toString());
 			return result.toString();
 		} catch (Exception e) {
 			logger.error("调用接口[" + url + "]失败！请求URL：" + url + "，参数：" + params, e);

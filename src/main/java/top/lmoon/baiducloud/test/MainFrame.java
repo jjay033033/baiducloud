@@ -42,9 +42,10 @@ public class MainFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JTextField urlText = new JTextField();
+	//https://pan.baidu.com/s/1qXZHS08
+	private JTextField urlText = new JTextField("http://pan.baidu.com/s/1kV3fVev");
 
-	private JTextField pwdText = new JTextField();
+	private JTextField pwdText = new JTextField("ni1w");
 
 	private JTextArea textArea = new JTextArea(4, 30);
 
@@ -166,6 +167,7 @@ public class MainFrame extends JFrame {
 				for (FileInfoVO fi : fileList) {
 					sb.append(fi.getFileName());
 					sb.append(":");
+					sb.append(SysConstants.LINE_SYMBOL);
 					sb.append(fi.getFileUrl());
 					sb.append(SysConstants.LINE_SYMBOL);
 				}
