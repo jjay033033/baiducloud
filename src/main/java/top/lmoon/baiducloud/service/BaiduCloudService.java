@@ -50,17 +50,14 @@ public class BaiduCloudService {
 	 * 
 	 */
 	private static void init() {
-		File downloadPath = new File(SysConstants.FILE_PATH);
-		File downloadTmpPath = new File(SysConstants.FILE_TMP_PATH);
-		if (!downloadPath.exists() || !downloadPath.isDirectory()) {
-			downloadPath.mkdirs();
-		}
-		if (!downloadTmpPath.exists() || !downloadTmpPath.isDirectory()) {
-			downloadTmpPath.mkdirs();
-		}
-		// System.setProperty("http.proxySet", "true");
-		// System.setProperty("http.proxyHost", "127.0.0.1");
-		// System.setProperty("http.proxyPort", "8888");
+//		File downloadPath = new File(SysConstants.FILE_PATH);
+//		File downloadTmpPath = new File(SysConstants.FILE_TMP_PATH);
+//		if (!downloadPath.exists() || !downloadPath.isDirectory()) {
+//			downloadPath.mkdirs();
+//		}
+//		if (!downloadTmpPath.exists() || !downloadTmpPath.isDirectory()) {
+//			downloadTmpPath.mkdirs();
+//		}
 	}
 
 	public static List<FileInfoVO> downloadAndGetFile(String url, String pwd, GetVcode gv) {
@@ -280,25 +277,6 @@ public class BaiduCloudService {
 
 	public static void main(String[] args) throws Exception {
 		// System.out.println(getUrl("https://pan.baidu.com/s/1qXZHS08"));
-		// ApeInfoVO vo = new ApeInfoVO();
-		// vo.setPw("ni1w");
 		System.out.println(downloadAndGetFile("http://pan.baidu.com/s/1kV3fVev", "ni1w", null));
-
-		// Map params = new HashMap<>();
-		// params.put("app_id", APP_ID);
-		// params.put("channel", CHANNEL);
-		// params.put("clienttype", CLIENTTYPE);
-		// params.put("web", WEB);
-		// params.put("surl", "kV3fVev");
-		//
-		// Map formParams = new HashMap<>();
-		// formParams.put("pwd", "ni1w");
-		// String verify =
-		// HttpUtil.postWithBaiduCookies("https://pan.baidu.com/share/verify",
-		// params, formParams);
-		// System.out.println("------verify:" + verify);
-		// System.out.println("------verify:" + new
-		// String(verify.getBytes("ISO8859_1"), "UTF-8"));
-
 	}
 }

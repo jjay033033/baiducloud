@@ -50,9 +50,6 @@ public class DownloadFrame extends JFrame {
 	public static final Object lock = new Object();
 
 	public DownloadFrame(Component c,BaiduCloudVcodeVO vo) {
-//		if (StringUtils.isBlank(baiduCloudInfo.getVcodeUrl())) {
-//			return;
-//		}
 		inputVcodeVO = new InputVcodeVO();
 		inputVcodeVO.setVcodeResult(VcodeResult.DEFAULT);
 
@@ -112,7 +109,6 @@ public class DownloadFrame extends JFrame {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			getAndSetVcodePic();
 			inputVcodeVO.setVcodeResult(VcodeResult.CHANGE);
 			synchronized (lock) {
 				lock.notify();
@@ -135,16 +131,6 @@ public class DownloadFrame extends JFrame {
 	}
 
 	/**
-	 * 
-	 */
-//	public void getAndSetVcodePic() {
-//		BaiduCloudVcode vcodeInfo = BaiduCloudService.getVcodeInfo(baiduCloudInfo.getBdstoken(), baiduCloudInfo.getAppId());
-//		baiduCloudInfo.setVcodeStr(vcodeInfo.getVcode_str());
-//		baiduCloudInfo.setVcodeUrl(vcodeInfo.getVcode_url());
-//		setVCodePic();
-//	}
-
-	/**
 	 * @author LMoon
 	 * @date 2017年10月25日
 	 * 
@@ -161,18 +147,11 @@ public class DownloadFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			String vcode = text.getText();
 			inputVcodeVO.setVcodeInput(vcode);
-			inputVcodeVO.setVcodeResult(VcodeResult.FINISHED);
-//			baiduCloudInfo.setVcodeInput(vcode);
-//			BaiduCloudInfo fileUrlInfo = BaiduCloudService.download(apeInfoVO,baiduCloudInfo.getBdstoken(), baiduCloudInfo.getAppId(), baiduCloudInfo.getParams(), baiduCloudInfo.getFormParams());
-//			if(fileUrlInfo.getHasDownload()==downloadType.ONGOING){
-				
-				synchronized (lock) {
-					lock.notify();
-				}
-				setVisible(false);
-//			}else{
-//				getAndSetVcodePic();
-//			}
+			inputVcodeVO.setVcodeResult(VcodeResult.FINISHED);	
+			synchronized (lock) {
+				lock.notify();
+			}
+			setVisible(false);
 		}
 
 	}
