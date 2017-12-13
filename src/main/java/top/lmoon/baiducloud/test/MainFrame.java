@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.StringUtils;
@@ -85,16 +86,25 @@ public class MainFrame extends JFrame {
 
 		JLabel urlLabel = new JLabel("百度网盘链接:");
 		JLabel pwdLabel = new JLabel("提取码:");
+		
+		urlText.setPreferredSize(new Dimension(20, 5));
+		urlText.setMinimumSize(new Dimension(20, 5));
+		
+		urlLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		pwdLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		JButton dealButton = new JButton("GO");
 		dealButton.addActionListener(new dealAction());
+
+//		dealButton.setMaximumSize(new Dimension(5, 2));
 
 		panel.add(urlLabel);
 		panel.add(urlText);
 		panel.add(pwdLabel);
 		panel.add(pwdText);
 		panel.add(dealButton);
-
+		panel.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
+		
 		return panel;
 	}
 
@@ -155,7 +165,7 @@ public class MainFrame extends JFrame {
 		
 						@Override
 						public InputVcodeVO get(BaiduCloudVcodeVO vo) {
-							DownloadFrame downloadFrame = new DownloadFrame(getInstance(), vo);
+							VcodeFrame downloadFrame = new VcodeFrame(getInstance(), vo);
 							synchronized (Locker.vcodeLock) {
 								try {
 									Locker.vcodeLock.wait();

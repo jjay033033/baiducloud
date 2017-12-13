@@ -34,11 +34,11 @@ import top.lmoon.baiducloud.vo.InputVcodeVO;
  * @date 2017年10月25日
  * 
  */
-public class DownloadFrame extends JFrame {
+public class VcodeFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger logger = LoggerFactory.getLogger(DownloadFrame.class);
+	private static final Logger logger = LoggerFactory.getLogger(VcodeFrame.class);
 	
 	private JTextField text;
 	
@@ -50,7 +50,7 @@ public class DownloadFrame extends JFrame {
 	
 //	public static final Object lock = new Object();
 
-	public DownloadFrame(Component c,BaiduCloudVcodeVO vo) {
+	public VcodeFrame(Component c,BaiduCloudVcodeVO vo) {
 		inputVcodeVO = new InputVcodeVO();
 		inputVcodeVO.setVcodeResult(VcodeResult.DEFAULT);
 
@@ -180,7 +180,7 @@ public class DownloadFrame extends JFrame {
 		BaiduCloudVcodeVO vo = new BaiduCloudVcodeVO();
 		vo.setVcode_str("333242386563323463616633346566373232376336363736376432396666643366623136363832323938333330303030303030303030303030303135313330373538313036559D318C5AA659500F0512718F5267");
 		vo.setVcode_url("https://pan.baidu.com/genimage?333242386563323463616633346566373232376336363736376432396666643366623136363832323938333330303030303030303030303030303135313330373538313036559D318C5AA659500F0512718F5267");
-		DownloadFrame downloadFrame = new DownloadFrame(null, vo );
+		VcodeFrame downloadFrame = new VcodeFrame(null, vo );
 		synchronized (Locker.vcodeLock) {
 			try {
 				Locker.vcodeLock.wait();
