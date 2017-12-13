@@ -159,37 +159,24 @@ public class VcodeFrame extends JFrame {
 	
 	public static void main(String[] args) {
 		// System.out.println(getUrl("https://pan.baidu.com/s/1qXZHS08"));
-//		System.out.println(BaiduCloudService.downloadAndGetFile("http://pan.baidu.com/s/1kV3fVev", "ni1w",new GetVcode() {
-//			
-//			@Override
-//			public InputVcodeVO get(BaiduCloudVcodeVO vo) {
-//				DownloadFrame downloadFrame = new DownloadFrame(null, vo);
-//				synchronized (Locker.lock) {
-//					try {
-//						Locker.lock.wait();
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//				}
-//				InputVcodeVO iVo = downloadFrame.getInputVcodeVO();
-//				return iVo;
-//			}
-//		}));
-		
-		BaiduCloudVcodeVO vo = new BaiduCloudVcodeVO();
-		vo.setVcode_str("333242386563323463616633346566373232376336363736376432396666643366623136363832323938333330303030303030303030303030303135313330373538313036559D318C5AA659500F0512718F5267");
-		vo.setVcode_url("https://pan.baidu.com/genimage?333242386563323463616633346566373232376336363736376432396666643366623136363832323938333330303030303030303030303030303135313330373538313036559D318C5AA659500F0512718F5267");
-		VcodeFrame downloadFrame = new VcodeFrame(null, vo );
-		synchronized (Locker.vcodeLock) {
-			try {
-				Locker.vcodeLock.wait();
-			} catch (InterruptedException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
+		System.out.println(BaiduCloudService.downloadAndGetFile("http://pan.baidu.com/s/1kV3fVev", "ni1w",new GetVcode() {
+			
+			@Override
+			public InputVcodeVO get(BaiduCloudVcodeVO vo) {
+				VcodeFrame downloadFrame = new VcodeFrame(null, vo);
+				synchronized (Locker.vcodeLock) {
+					try {
+						Locker.vcodeLock.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				InputVcodeVO iVo = downloadFrame.getInputVcodeVO();
+				return iVo;
 			}
-		}
-		InputVcodeVO iVo = downloadFrame.getInputVcodeVO();
+		}));
+
 	}
 
 }

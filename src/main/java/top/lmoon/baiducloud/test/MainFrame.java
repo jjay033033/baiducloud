@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
 
 	private MainFrame() {
 		// MainFrame mFrame = getInstance();
-		this.setTitle("My songs");
+		this.setTitle("Cracker");
 		this.setIconImage(new ImageIcon(SysConstants.TITLE_IMG).getImage());
 		this.setSize(690, 300);
 		// this.addWindowListener(new CloseWindowListener());
@@ -81,7 +81,7 @@ public class MainFrame extends JFrame {
 	 */
 	private JPanel northPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 5));
+		panel.setLayout(new GridLayout(1, 5,20,0));
 //		panel.setPreferredSize(new Dimension(600, 100));
 
 		JLabel urlLabel = new JLabel("百度网盘链接:");
@@ -103,7 +103,7 @@ public class MainFrame extends JFrame {
 		panel.add(pwdLabel);
 		panel.add(pwdText);
 		panel.add(dealButton);
-		panel.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
+		panel.setBorder(BorderFactory.createEmptyBorder(8, 10, 3, 20));
 		
 		return panel;
 	}

@@ -3,7 +3,6 @@
  */
 package top.lmoon.baiducloud.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import top.lmoon.baiducloud.constant.SysConstants;
 import top.lmoon.baiducloud.util.CommonUtil;
 import top.lmoon.baiducloud.util.HttpUtil;
 import top.lmoon.baiducloud.util.VcodeUtil.VcodeResult;
