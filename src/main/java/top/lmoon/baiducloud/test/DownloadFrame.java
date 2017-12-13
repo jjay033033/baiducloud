@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import top.lmoon.baiducloud.constant.SysConstants;
 import top.lmoon.baiducloud.service.BaiduCloudService;
 import top.lmoon.baiducloud.service.BaiduCloudService.GetVcode;
+import top.lmoon.baiducloud.util.Locker;
 import top.lmoon.baiducloud.util.VcodeUtil.VcodeResult;
 import top.lmoon.baiducloud.vo.BaiduCloudVcodeVO;
 import top.lmoon.baiducloud.vo.InputVcodeVO;
@@ -47,7 +48,7 @@ public class DownloadFrame extends JFrame {
 	
 	private InputVcodeVO inputVcodeVO;
 	
-	public static final Object lock = new Object();
+//	public static final Object lock = new Object();
 
 	public DownloadFrame(Component c,BaiduCloudVcodeVO vo) {
 		inputVcodeVO = new InputVcodeVO();
@@ -110,8 +111,8 @@ public class DownloadFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			inputVcodeVO.setVcodeResult(VcodeResult.CHANGE);
-			synchronized (lock) {
-				lock.notify();
+			synchronized (Locker.vcodeLock) {
+				Locker.vcodeLock.notify();
 			}
 			setVisible(false);
 		}
@@ -148,8 +149,8 @@ public class DownloadFrame extends JFrame {
 			String vcode = text.getText();
 			inputVcodeVO.setVcodeInput(vcode);
 			inputVcodeVO.setVcodeResult(VcodeResult.FINISHED);	
-			synchronized (lock) {
-				lock.notify();
+			synchronized (Locker.vcodeLock) {
+				Locker.vcodeLock.notify();
 			}
 			setVisible(false);
 		}
@@ -158,23 +159,37 @@ public class DownloadFrame extends JFrame {
 	
 	public static void main(String[] args) {
 		// System.out.println(getUrl("https://pan.baidu.com/s/1qXZHS08"));
-		System.out.println(BaiduCloudService.downloadAndGetFile("http://pan.baidu.com/s/1kV3fVev", "ni1w",new GetVcode() {
-			
-			@Override
-			public InputVcodeVO get(BaiduCloudVcodeVO vo) {
-				DownloadFrame downloadFrame = new DownloadFrame(null, vo);
-				synchronized (lock) {
-					try {
-						lock.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				InputVcodeVO iVo = downloadFrame.getInputVcodeVO();
-				return iVo;
+//		System.out.println(BaiduCloudService.downloadAndGetFile("http://pan.baidu.com/s/1kV3fVev", "ni1w",new GetVcode() {
+//			
+//			@Override
+//			public InputVcodeVO get(BaiduCloudVcodeVO vo) {
+//				DownloadFrame downloadFrame = new DownloadFrame(null, vo);
+//				synchronized (Locker.lock) {
+//					try {
+//						Locker.lock.wait();
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//				InputVcodeVO iVo = downloadFrame.getInputVcodeVO();
+//				return iVo;
+//			}
+//		}));
+		
+		BaiduCloudVcodeVO vo = new BaiduCloudVcodeVO();
+		vo.setVcode_str("333242386563323463616633346566373232376336363736376432396666643366623136363832323938333330303030303030303030303030303135313330373538313036559D318C5AA659500F0512718F5267");
+		vo.setVcode_url("https://pan.baidu.com/genimage?333242386563323463616633346566373232376336363736376432396666643366623136363832323938333330303030303030303030303030303135313330373538313036559D318C5AA659500F0512718F5267");
+		DownloadFrame downloadFrame = new DownloadFrame(null, vo );
+		synchronized (Locker.vcodeLock) {
+			try {
+				Locker.vcodeLock.wait();
+			} catch (InterruptedException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
 			}
-		}));
+		}
+		InputVcodeVO iVo = downloadFrame.getInputVcodeVO();
 	}
 
 }

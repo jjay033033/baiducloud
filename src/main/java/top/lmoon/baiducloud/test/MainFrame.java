@@ -26,6 +26,8 @@ import org.apache.commons.lang3.StringUtils;
 import top.lmoon.baiducloud.constant.SysConstants;
 import top.lmoon.baiducloud.service.BaiduCloudService;
 import top.lmoon.baiducloud.service.BaiduCloudService.GetVcode;
+import top.lmoon.baiducloud.service.ThreadPool;
+import top.lmoon.baiducloud.util.Locker;
 import top.lmoon.baiducloud.vo.BaiduCloudVcodeVO;
 import top.lmoon.baiducloud.vo.FileInfoVO;
 import top.lmoon.baiducloud.vo.InputVcodeVO;
@@ -143,36 +145,45 @@ public class MainFrame extends JFrame {
 			if (StringUtils.isBlank(url) || StringUtils.isBlank(pwd)) {
 				return;
 			}
-			// "http://pan.baidu.com/s/1kV3fVev", "ni1w"
-			List<FileInfoVO> fileList = BaiduCloudService.downloadAndGetFile(url, pwd, new GetVcode() {
-
+			
+			Runnable runnable = new Runnable() {
+				
 				@Override
-				public InputVcodeVO get(BaiduCloudVcodeVO vo) {
-					DownloadFrame downloadFrame = new DownloadFrame(getInstance(), vo);
-					synchronized (DownloadFrame.lock) {
-						try {
-							DownloadFrame.lock.wait();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+				public void run() {
+					// "http://pan.baidu.com/s/1kV3fVev", "ni1w"
+					List<FileInfoVO> fileList = BaiduCloudService.downloadAndGetFile(url, pwd, new GetVcode() {
+		
+						@Override
+						public InputVcodeVO get(BaiduCloudVcodeVO vo) {
+							DownloadFrame downloadFrame = new DownloadFrame(getInstance(), vo);
+							synchronized (Locker.vcodeLock) {
+								try {
+									Locker.vcodeLock.wait();
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+							InputVcodeVO iVo = downloadFrame.getInputVcodeVO();
+							return iVo;
 						}
+					});
+					if (fileList != null && !fileList.isEmpty()) {
+						// 展示下载链接
+						StringBuilder sb = new StringBuilder();
+						for (FileInfoVO fi : fileList) {
+							sb.append(fi.getFileName());
+							sb.append(":");
+							sb.append(SysConstants.LINE_SYMBOL);
+							sb.append(fi.getFileUrl());
+							sb.append(SysConstants.LINE_SYMBOL).append(SysConstants.LINE_SYMBOL);
+						}
+						textArea.setText(sb.toString());
 					}
-					InputVcodeVO iVo = downloadFrame.getInputVcodeVO();
-					return iVo;
 				}
-			});
-			if (fileList != null && !fileList.isEmpty()) {
-				// 展示下载链接
-				StringBuilder sb = new StringBuilder();
-				for (FileInfoVO fi : fileList) {
-					sb.append(fi.getFileName());
-					sb.append(":");
-					sb.append(SysConstants.LINE_SYMBOL);
-					sb.append(fi.getFileUrl());
-					sb.append(SysConstants.LINE_SYMBOL);
-				}
-				textArea.setText(sb.toString());
-			}
+			};
+			ThreadPool.commonThreadPool.submit(runnable);
+			
 		}
 
 	}
