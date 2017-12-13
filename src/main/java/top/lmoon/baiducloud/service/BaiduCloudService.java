@@ -160,7 +160,7 @@ public class BaiduCloudService {
 		headers.put("Origin", "https://pan.baidu.com");
 		headers.put("Referer", "https://pan.baidu.com");
 
-		String cookies = HttpUtil.postWithBaiduCookies("https://pan.baidu.com/share/verify", params, formParams,
+		String cookies = HttpUtil.postForBaiduCookies("https://pan.baidu.com/share/verify", params, formParams,
 				headers);
 		if (cookies == null) {
 			return;
