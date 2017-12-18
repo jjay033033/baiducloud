@@ -1,7 +1,7 @@
 /**
  * 
  */
-package top.lmoon.baiducloud.test;
+package top.lmoon.baiducloud.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
